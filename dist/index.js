@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VectorDB = void 0;
 const promises_1 = __importDefault(require("fs/promises"));
 const worker_threads_1 = require("worker_threads");
-const openai_1 = require("./openai");
 const worker_1 = __importDefault(require("./worker"));
 class VectorDB {
     constructor() {
@@ -29,20 +28,6 @@ class VectorDB {
                 resolve(results);
                 this.requests.delete(id);
             }
-        });
-    }
-    addText(text) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const embedding = yield (0, openai_1.createEmbedding)(text);
-            const id = (Math.floor(Math.random() * 10000) + 1).toString();
-            this.documents.set(id, {
-                id: id,
-                embedding: embedding,
-                metadata: {
-                    text: text
-                }
-            });
-            return this.documents.get(id);
         });
     }
     add(document) {
@@ -81,12 +66,6 @@ class VectorDB {
             const id = (Math.floor(Math.random() * 10000) + 1);
             this.requests.set(id, { resolve });
             this.worker.postMessage({ id, queryVector, documents, top_k });
-        });
-    }
-    queryText(text, top_k = 10) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const embedding = yield (0, openai_1.createEmbedding)(text);
-            return this.query(embedding, top_k);
         });
     }
     terminate() {

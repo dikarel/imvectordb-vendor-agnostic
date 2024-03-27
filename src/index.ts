@@ -1,7 +1,6 @@
 import fs from 'fs/promises'
 import { Worker } from 'worker_threads';
 import { Embedding, Document, Documents, WorkerData, WorkerResult, Requests } from './types';
-import { createEmbedding } from './openai';
 
 import worker from './worker';
 
@@ -23,20 +22,6 @@ class VectorDB {
                 this.requests.delete(id);
             }
         });
-    }
-
-    async addText(text: string): Promise<Document | undefined> {
-        const embedding = await createEmbedding(text)
-        const id = (Math.floor(Math.random() * 10000) + 1).toString()
-        this.documents.set(id, {
-            id: id,
-            embedding: embedding,
-            metadata: {
-                text: text
-            }
-        });
-
-        return this.documents.get(id)
     }
 
     add(document: Document): Document | undefined {
@@ -80,11 +65,6 @@ class VectorDB {
             this.requests.set(id, { resolve });
             this.worker.postMessage({ id, queryVector, documents, top_k } as WorkerData);
         });
-    }
-
-    async queryText(text: string, top_k: number=10): Promise<any> {
-        const embedding = await createEmbedding(text)
-        return this.query(embedding, top_k)
     }
 
     async terminate() {

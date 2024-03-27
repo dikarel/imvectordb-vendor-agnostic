@@ -27,8 +27,6 @@ db.addText("text for semantic search")
 db.queryText("text to search")
 ```
 
-This library automatically uses OpenAI's "text-embedding-ada-002" model for embedding, so you'll need to set the `OPENAI_API_KEY` environment variable.
-
 You can also add documents to the database using your own embedding models.
 
 Here's a complete guide:
