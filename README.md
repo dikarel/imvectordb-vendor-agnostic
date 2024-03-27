@@ -9,25 +9,12 @@ With a compressed (ZIP) file size of just 3KB.
 ## Installation
 
 ```sh
-npm install imvectordb
+npm install git+https://github.com/dikarel/imvectordb-vendor-agnostic.git
 ```
 
 ## Usage
 
-Easily integrate it into your project with just a few lines of code:
-
-```typescript
-import { VectorDB } from 'imvectordb';
-
-const db = new VectorDB();
-
-db.addText("text for semantic search")
-// ...add additional text as needed
-
-db.queryText("text to search")
-```
-
-You can also add documents to the database using your own embedding models.
+You can add documents to the database using your own embedding models.
 
 Here's a complete guide:
 
